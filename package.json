@@ -1,0 +1,24 @@
+{
+  "name": "focus-app",
+  "version": "1.0.0",
+  "description": "Focus Dashboard - Pomodoro timer with daily goal tracking",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^1.6.0",
+    "happy-dom": "^20.9.0",
+    "jsdom": "^29.0.2",
+    "vitest": "^1.6.0"
+  },
+  "keywords": [
+    "pomodoro",
+    "focus",
+    "productivity"
+  ],
+  "author": "Yehuda Cohen",
+  "license": "MIT"
+}
