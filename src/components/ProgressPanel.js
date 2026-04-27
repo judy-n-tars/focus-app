@@ -1,3 +1,5 @@
+import { load } from '../lib/storage.js';
+
 export function createProgressPanel(container) {
   const card = document.createElement('div');
   card.className = 'card';
@@ -53,6 +55,14 @@ export function createProgressPanel(container) {
     if (progress < 100) return '🍁';
     return '🎉';
   }
+  
+  // Auto-refresh on storage changes
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'focus-app-data') {
+      const data = load();
+      render(data);
+    }
+  });
   
   return { render };
 }
