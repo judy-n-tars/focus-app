@@ -47,6 +47,7 @@ export function createFocusPlanner(container, onAddPomodoro) {
         <div class="checkbox ${focus.completed ? 'checked' : ''}" onclick="window.focusToggle(${index})"></div>
         <span class="focus-text">${escapeHtml(focus.text)}</span>
         <span class="pomodoro-count">${focus.pomodoros || 0} 🍅</span>
+        <button class="delete-btn" onclick="window.focusDelete(${index})" title="Delete goal">✕</button>
       </li>
     `).join('');
     
@@ -71,11 +72,28 @@ export function createFocusPlanner(container, onAddPomodoro) {
     onAddPomodoro(); // Trigger timer dropdown update
   }
   
+  // Auto-refresh on storage changes (cross-tab sync)
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'focus-app-data') {
+      data = load();
+      render();
+    }
+  });
+  
   window.focusToggle = (index) => {
     data.focuses[index].completed = !data.focuses[index].completed;
     data.completed = data.focuses.filter(f => f.completed).length;
     save(data);
     render();
+    onAddPomodoro(); // Update timer dropdown
+  };
+  
+  window.focusDelete = (index) => {
+    data.focuses.splice(index, 1);
+    data.completed = data.focuses.filter(f => f.completed).length;
+    save(data);
+    render();
+    onAddPomodoro(); // Update timer dropdown
   };
   
   window.focusAddPomodoro = (focusIndex) => {

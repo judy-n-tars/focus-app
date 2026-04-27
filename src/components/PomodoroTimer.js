@@ -1,4 +1,5 @@
 import { MODES, formatTime, getNextMode, playNotification } from '../lib/timer.js';
+import { load } from '../lib/storage.js';
 
 export function createPomodoroTimer(container, onSessionComplete) {
   const card = document.createElement('div');
@@ -107,6 +108,14 @@ export function createPomodoroTimer(container, onSessionComplete) {
   
   startBtn.addEventListener('click', toggleTimer);
   resetBtn.addEventListener('click', resetTimer);
+  
+  // Auto-refresh focus options on storage changes
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'focus-app-data') {
+      const data = load();
+      updateFocusOptions(data.focuses);
+    }
+  });
   
   updateDisplay();
   updateDots();
